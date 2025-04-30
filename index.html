@@ -1,43 +1,5 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+```html
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8" />
@@ -47,10 +9,415 @@
   <meta name="author" content="Negaahe No" />
   <title>مجتمع آموزشی نگاه نو</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-  <link href="https://fonts.googleapis.com/css2?family=Vazir:wght@400;700&display=swap" rel="stylesheet" />
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <!-- Vazir Font -->
+  <link href="https://cdn.fontcdn.ir/Font/Persian/Vazir/Vazir.css" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Vazir', sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    /* Smooth Scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+    /* Custom Purple Theme */
+    .bg-purple-600 { background-color: #6B46C1; }
+    .text-purple-600 { color: #6B46C1; }
+    .hover\:bg-purple-700:hover { background-color: #553C9A; }
+    .hover\:text-purple-700:hover { color: #553C9A; }
+    /* Slider Styles */
+    .slider-container {
+      position: relative;
+      overflow: hidden;
+    }
+    .slider {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+    .slide {
+      min-width: 100%;
+      box-sizing: border-box;
+    }
+    .slider-nav {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+    }
+    .slider-nav button {
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+    }
+    /* Animation for Scroll Down */
+    .animate-bounce {
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-10px); }
+      60% { transform: translateY(-5px); }
+    }
+  </style>
 </head>
-<body>
-  <div id="root"></div>
-  <script type="module" src="/src/main.jsx"></script>
+<body class="bg-gray-50 text-gray-800">
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 w-full bg-white/80 backdrop-blur-md shadow-md z-50">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="/" class="text-2xl font-bold text-purple-600">نگاه نو</a>
+      <div class="hidden md:flex items-center gap-6">
+        <a href="#home" class="text-gray-600 hover:text-purple-600">خانه</a>
+        <a href="#about" class="text-gray-600 hover:text-purple-600">درباره ما</a>
+        <a href="#services" class="text-gray-600 hover:text-purple-600">خدمات مدرسه</a>
+        <a href="#portfolio" class="text-gray-600 hover:text-purple-600">تصاویر</a>
+        <a href="#blog" class="text-gray-600 hover:text-purple-600">اخبار مدرسه</a>
+        <a href="#contact" class="text-gray-600 hover:text-purple-600">تماس با ما</a>
+        <a href="/account" class="flex items-center gap-2 text-purple-600 font-bold">
+          <i class="fas fa-user-circle"></i> حساب کاربری
+        </a>
+      </div>
+      <button class="md:hidden toggle-menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+    </div>
+    <div class="mobile-menu hidden md:hidden bg-white shadow-md">
+      <a href="#home" class="block w-full text-right py-2 px-4 text-gray-600 hover:bg-purple-50 hover:text-purple-600">خانه</a>
+      <a href="#about" class="block w-full text-right py-2 px-4 text-gray-600 hover:bg-purple-50 hover:text-purple-600">درباره ما</a>
+      <a href="#services" class="block w-full text-right py-2 px-4 text-gray-600 hover:bg-purple-50 hover:text-purple-600">خدمات مدرسه</a>
+      <a href="#portfolio" class="block w-full text-right py-2 px-4 text-gray-600 hover:bg-purple-50 hover:text-purple-600">تصاویر</a>
+      <a href="#blog" class="block w-full text-right py-2 px-4 text-gray-600 hover:bg-purple-50 hover:text-purple-600">اخبار مدرسه</a>
+      <a href="#contact" class="block w-full text-right py-2 px-4 text-gray-600 hover:bg-purple-50 hover:text-purple-600">تماس با ما</a>
+      <a href="/account" class="block w-full text-right py-2 px-4 text-purple-600 font-bold hover:bg-purple-50">حساب کاربری</a>
+    </div>
+  </nav>
+
+  <!-- Home Section -->
+  <section id="home" class="relative h-screen bg-cover bg-center" style="background-image: url('/images/background/creative2-banner-bg.jpg');">
+    <div class="absolute inset-0 bg-black/50"></div>
+    <div class="relative container mx-auto h-full flex flex-col justify-center items-center text-center text-white">
+      <h1 class="text-4xl md:text-6xl font-bold mb-4">نگاه نو، جایی برای شروع‌های بزرگ</h1>
+      <p class="text-lg md:text-2xl mb-8">مکانی برای رشد، یادگیری و شکوفایی استعدادها</p>
+      <a href="#about" class="absolute bottom-10 animate-bounce text-3xl"><i class="fas fa-chevron-down"></i></a>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row items-center gap-8">
+        <div class="md:w-1/2">
+          <img src="/images/about-img.jpg" alt="About Negaahe No" class="rounded-lg shadow-lg" loading="lazy" />
+        </div>
+        <div class="md:w-1/2">
+          <h2 class="text-3xl font-bold text-purple-600 mb-4">درباره ما</h2>
+          <p class="text-gray-600 mb-4">
+            دبیرستان پسرانه‌ی نگاه نو با بیش از ۴۰ سال سابقه درخشان در آموزش و پرورش، همواره در مسیر رشد
+            علمی و تربیتی دانش‌آموزان گام برداشته است. این مجموعه با بهره‌گیری از کادری مجرب و امکانات
+            آموزشی مدرن، محیطی پویا و انگیزشی را برای دانش‌آموزان فراهم می‌کند.
+          </p>
+          <h3 class="text-xl font-semibold text-purple-600 mb-2">چرا نگاه نو؟</h3>
+          <p class="text-gray-600 mb-4">
+            دبیرستان پسرانه‌ی نگاه نو با تکیه بر روش‌های نوین آموزشی و برنامه‌های متنوع پژوهشی، خلاقیت و
+            استعدادهای دانش‌آموزان را شکوفا می‌سازد.
+          </p>
+          <div class="flex gap-4">
+            <a href="https://www.linkedin.com" target="_blank" class="text-purple-600 hover:text-purple-700">
+              <i class="fab fa-linkedin fa-2x"></i>
+            </a>
+            <a href="https://t.me/negaah_e_no" target="_blank" class="text-purple-600 hover:text-purple-700">
+              <i class="fab fa-telegram fa-2x"></i>
+            </a>
+            <a href="https://www.instagram.com/negaah_e_no/" target="_blank" class="text-purple-600 hover:text-purple-700">
+              <i class="fab fa-instagram fa-2x"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="py-20 bg-gray-100">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center text-purple-600 mb-8">خدمات مدرسه</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+          <i class="fas fa-chalkboard-teacher text-4xl text-purple-600 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">آموزش هوشمند</h3>
+          <p class="text-gray-600">کلاس‌های هوشمند با تخته‌های دیجیتال و محتوای تعاملی، یادگیری را جذاب‌تر کرده و فهم مطالب را آسان‌تر می‌کند.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+          <i class="fas fa-graduation-cap text-4xl text-purple-600 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">دوره‌های تیزهوشان</h3>
+          <p class="text-gray-600">دانش‌آموزان مستعد در کلاس‌های ویژه، با حل مسائل پیچیده و روش‌های نوین آموزشی، مهارت‌های فکری خود را تقویت می‌کنند.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+          <i class="fas fa-flask text-4xl text-purple-600 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">فعالیت‌های پژوهشی و آزمایشگاهی</h3>
+          <p class="text-gray-600">هر هفته دانش‌آموزان در آزمایشگاه مدرسه تحقیق می‌کنند و با انجام آزمایش‌های علمی، مفاهیم را عمیق‌تر درک می‌کنند.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+          <i class="fas fa-user-tie text-4xl text-purple-600 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">مشاوره و راهنمایی تحصیلی</h3>
+          <p class="text-gray-600">مشاوران مدرسه هر هفته جلسات مشاوره برگزار می‌کنند تا دانش‌آموزان مسیر تحصیلی و شغلی خود را بهتر بشناسند.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+          <i class="fas fa-person-running text-4xl text-purple-600 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">ورزش و سلامت</h3>
+          <p class="text-gray-600">هر شنبه، دانش‌آموزان در زمین ورزشی مدرسه انواع ورزش‌ها را تمرین می‌کنند تا سالم و پرانرژی بمانند.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
+          <i class="fas fa-trophy text-4xl text-purple-600 mb-4"></i>
+          <h3 class="text-xl font-semibold mb-2">مسابقات و جشنواره‌های سرگرمی و ورزشی</h3>
+          <p class="text-gray-600">مدرسه هر ماه مسابقات علمی، فرهنگی و ورزشی برگزار می‌کند تا دانش‌آموزان استعدادهای خود را نشان دهند.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section id="stats" class="py-20 bg-cover bg-center relative" style="background-image: url('/images/background/stats-bg.jpg');">
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="container mx-auto px-4 relative z-10">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center text-white">
+        <div class="flex flex-col items-center">
+          <i class="fas fa-users text-4xl mb-4"></i>
+          <h3 class="text-3xl font-bold">400</h3>
+          <p>تعداد دانش‌آموزان</p>
+        </div>
+        <div class="flex flex-col items-center">
+          <i class="fas fa-thumbs-up text-4xl mb-4"></i>
+          <h3 class="text-3xl font-bold">800</h3>
+          <p>فارغ‌التحصیلان موفق</p>
+        </div>
+        <div class="flex flex-col items-center">
+          <i class="fas fa-edit text-4xl mb-4"></i>
+          <h3 class="text-3xl font-bold">500</h3>
+          <p>تعداد دبیران مجرب</p>
+        </div>
+        <div class="flex flex-col items-center">
+          <i class="fas fa-trophy text-4xl mb-4"></i>
+          <h3 class="text-3xl font-bold">100</h3>
+          <p>مقام‌های رباتیک</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio Section -->
+  <section id="portfolio" class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center text-purple-600 mb-8">تصاویر</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="relative overflow-hidden rounded-lg shadow-lg group">
+          <img src="/images/portfolio/img-1.jpg" alt="فعالیت‌ها" class="w-full h-64 object-cover" loading="lazy" />
+          <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <h3 class="text-white text-lg font-semibold">فعالیت‌ها</h3>
+          </div>
+        </div>
+        <div class="relative overflow-hidden rounded-lg shadow-lg group">
+          <img src="/images/portfolio/img-2.jpg" alt="فعالیت‌ها" class="w-full h-64 object-cover" loading="lazy" />
+          <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <h3 class="text-white text-lg font-semibold">فعالیت‌ها</h3>
+          </div>
+        </div>
+        <div class="relative overflow-hidden rounded-lg shadow-lg group">
+          <img src="/images/portfolio/img-3.jpg" alt="رباتیک" class="w-full h-64 object-cover" loading="lazy" />
+          <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <h3 class="text-white text-lg font-semibold">رباتیک</h3>
+          </div>
+        </div>
+        <div class="relative overflow-hidden rounded-lg shadow-lg group">
+          <img src="/images/portfolio/img-4.jpg" alt="فعالیت‌ها" class="w-full h-64 object-cover" loading="lazy" />
+          <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <h3 class="text-white text-lg font-semibold">فعالیت‌ها</h3>
+          </div>
+        </div>
+        <div class="relative overflow-hidden rounded-lg shadow-lg group">
+          <img src="/images/portfolio/img-5.jpg" alt="رباتیک" class="w-full h-64 object-cover" loading="lazy" />
+          <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <h3 class="text-white text-lg font-semibold">رباتیک</h3>
+          </div>
+        </div>
+        <div class="relative overflow-hidden rounded-lg shadow-lg group">
+          <img src="/images/portfolio/img-6.jpg" alt="رباتیک" class="w-full h-64 object-cover" loading="lazy" />
+          <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <h3 class="text-white text-lg font-semibold">رباتیک</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog Section -->
+  <section id="blog" class="py-20 bg-gray-100">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center text-purple-600 mb-8">اخبار مدرسه</h2>
+      <div class="slider-container">
+        <div class="slider flex">
+          <div class="slide bg-white rounded-lg shadow-lg overflow-hidden">
+            <img src="/images/blog/img-1.jpg" alt="سفر علمی و تفریحی با قطار" class="w-full h-48 object-cover" loading="lazy" />
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-2">سفر علمی و تفریحی با قطار</h3>
+              <p class="text-gray-600 mb-4">دانش‌آموزان مدرسه در یک سفر هیجان‌انگیز علمی و تفریحی با قطار شرکت کردند...</p>
+              <div class="flex justify-between items-center">
+                <a href="/blog/single-blog" class="text-purple-600 hover:underline">مطالعه بیشتر</a>
+                <span class="text-gray-500">22 مرداد 1400</span>
+              </div>
+            </div>
+          </div>
+          <div class="slide bg-white rounded-lg shadow-lg overflow-hidden">
+            <img src="/images/blog/img-2.jpg" alt="ایستگاه موفقیت در مسیر دانش" class="w-full h-48 object-cover" loading="lazy" />
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-2">ایستگاه موفقیت در مسیر دانش</h3>
+              <p class="text-gray-600 mb-4">تیمی از دانش‌آموزان مدرسه در یک رویداد علمی شرکت کردند...</p>
+              <div class="flex justify-between items-center">
+                <a href="/blog/single-blog" class="text-purple-600 hover:underline">مطالعه بیشتر</a>
+                <span class="text-gray-500">22 مرداد 1400</span>
+              </div>
+            </div>
+          </div>
+          <div class="slide bg-white rounded-lg shadow-lg overflow-hidden">
+            <img src="/images/blog/img-3.jpg" alt="افتخارآفرینی در المپیاد تکنولوژی" class="w-full h-48 object-cover" loading="lazy" />
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-2">افتخارآفرینی در المپیاد تکنولوژی</h3>
+              <p class="text-gray-600 mb-4">تلاش و پشتکار دانش‌آموزان مدرسه در المپیاد تکنولوژی به ثمر نشست...</p>
+              <div class="flex justify-between items-center">
+                <a href="/blog/single-blog" class="text-purple-600 hover:underline">مطالعه بیشتر</a>
+                <span class="text-gray-500">22 مرداد 1400</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slider-nav">
+          <button onclick="moveSlider(-1)">&#10094;</button>
+          <button onclick="moveSlider(1)">&#10095;</button>
+        </div>
+      </div>
+      <div class="flex flex-wrap justify-center gap-4 mt-8">
+        <a href="https://my.madyar.org/Students/SHome" target="_blank" class="px-6 py-3 bg-purple-600 text-white rounded-full hover:bg-purple-700">سامانه دانش‌آموزی</a>
+        <a href="/classes" class="px-6 py-3 bg-purple-600 text-white rounded-full hover:bg-purple-700">کلاس‌های فوق‌برنامه</a>
+        <a href="/register" class="px-6 py-3 bg-purple-600 text-white rounded-full hover:bg-purple-700">پیش‌ثبت‌نام 05-1404</a>
+        <a href="/program" class="px-6 py-3 bg-purple-600 text-white rounded-full hover:bg-purple-700">برنامه هفتگی 04-1403</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="py-20 bg-cover bg-center relative" style="background-image: url('/images/background/testimonials-bg.jpg');">
+    <div class="absolute inset-0 bg-black/60"></div>
+    <div class="container mx-auto px-4 relative z-10">
+      <h2 class="text-3xl font-bold text-center text-white mb-8">نظرات</h2>
+      <div class="slider-container">
+        <div class="slider flex">
+          <div class="slide bg-white/90 p-6 rounded-lg shadow-lg text-center max-w-2xl mx-auto">
+            <h3 class="text-xl font-semibold text-purple-600 mb-2">امین سبحانی</h3>
+            <span class="text-gray-600 block mb-4">مدیر مجموعه</span>
+            <p class="text-gray-800">آقای امین سبحانی، مدیر مدرسه نگاه نو، با رویکردی خلاقانه و دلسوزانه محیطی پویا برای رشد دانش‌آموزان فراهم کرده است...</p>
+          </div>
+          <div class="slide bg-white/90 p-6 rounded-lg shadow-lg text-center max-w-2xl mx-auto">
+            <h3 class="text-xl font-semibold text-purple-600 mb-2">مرتضی عیسی</h3>
+            <span class="text-gray-600 block mb-4">مشاور پایه هفتم و هشتم</span>
+            <p class="text-gray-800">مرتضی عیسی، مشاور پایه هفتم و هشتم مدرسه نگاه نو، با راهنمایی‌های دلسوزانه و حمایت مستمر...</p>
+          </div>
+          <div class="slide bg-white/90 p-6 rounded-lg shadow-lg text-center max-w-2xl mx-auto">
+            <h3 class="text-xl font-semibold text-purple-600 mb-2">محمد امین حدادی</h3>
+            <span class="text-gray-600 block mb-4">مشاور پایه نهم</span>
+            <p class="text-gray-800">آقای حدادی، مشاور پایه نهم مدرسه نگاه نو، با تجربه و دلسوزی...</p>
+          </div>
+        </div>
+        <div class="slider-nav">
+          <button onclick="moveTestimonialSlider(-1)">&#10094;</button>
+          <button onclick="moveTestimonialSlider(1)">&#10095;</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-20 bg-white">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center text-purple-600 mb-8">تماس با ما</h2>
+      <form action="/submit" method="POST" class="max-w-2xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div>
+            <input type="text" name="name" placeholder="نام" class="w-full p-3 border-b-2 border-purple-600 focus:outline-none focus:border-purple-700" required />
+          </div>
+          <div>
+            <input type="email" name="email" placeholder="ایمیل" class="w-full p-3 border-b-2 border-purple-600 focus:outline-none focus:border-purple-700" required />
+          </div>
+        </div>
+        <div class="mb-6">
+          <textarea name="message" placeholder="چگونه می‌توانیم به شما کمک کنیم؟" class="w-full p-3 border-b-2 border-purple-600 focus:outline-none focus:border-purple-700" rows="6" required></textarea>
+        </div>
+        <button type="submit" class="w-full py-3 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors">ارسال پیام</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-purple-600 text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4">دبیرستان دوره اول</h3>
+          <p>تلفن: 44002078 - 44002077</p>
+          <p>آدرس: بلوار فردوس، خیابان رامین جنوبی، کوچه سروی، پلاک 16</p>
+          <p>ایمیل: info@negaaheno.ir</p>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-4">دبیرستان دوره دوم</h3>
+          <p>تلفن: 44020395 - 44020648</p>
+          <p>آدرس: آیت‌الله کاشانی، خیابان سلیمی جهرمی، کوچه نسترن شرقی، پلاک 5</p>
+          <p>ایمیل: info@negaaheno.ir</p>
+        </div>
+      </div>
+      <hr class="my-8 border-gray-400" />
+      <p class="text-center">
+        طراحی‌شده توسط مجتمع آموزشی <a href="/" class="text-purple-200 hover:underline">نگاه نو</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- JavaScript for Menu Toggle and Sliders -->
+  <script>
+    // Mobile Menu Toggle
+    document.querySelector('.toggle-menu').addEventListener('click', () => {
+      document.querySelector('.mobile-menu').classList.toggle('hidden');
+    });
+
+    // Blog Slider
+    let blogSlideIndex = 0;
+    const blogSlides = document.querySelectorAll('#blog .slide');
+    function moveSlider(direction) {
+      blogSlideIndex += direction;
+      if (blogSlideIndex >= blogSlides.length) blogSlideIndex = 0;
+      if (blogSlideIndex < 0) blogSlideIndex = blogSlides.length - 1;
+      document.querySelector('#blog .slider').style.transform = `translateX(-${blogSlideIndex * 100}%)`;
+    }
+
+    // Testimonial Slider
+    let testimonialSlideIndex = 0;
+    const testimonialSlides = document.querySelectorAll('#testimonials .slide');
+    function moveTestimonialSlider(direction) {
+      testimonialSlideIndex += direction;
+      if (testimonialSlideIndex >= testimonialSlides.length) testimonialSlideIndex = 0;
+      if (testimonialSlideIndex < 0) testimonialSlideIndex = testimonialSlides.length - 1;
+      document.querySelector('#testimonials .slider').style.transform = `translateX(-${testimonialSlideIndex * 100}%)`;
+    }
+  </script>
 </body>
 </html>
+```
