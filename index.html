@@ -18,7 +18,7 @@
   <!-- CDNJS - Swiper -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.css" />
   
-  <!-- Vazirmatn Font (Modern Persian Font) -->
+  <!-- Vazirmatn Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -88,13 +88,11 @@
   </script>
   
   <style>
-    /* Global Styles */
     body {
       font-family: 'Vazirmatn', sans-serif;
       scroll-behavior: smooth;
     }
     
-    /* Custom Scrollbar */
     ::-webkit-scrollbar {
       width: 12px;
     }
@@ -112,7 +110,6 @@
       background: #6818db;
     }
     
-    /* Glass Effect */
     .glass {
       background: rgba(255, 255, 255, 0.25);
       backdrop-filter: blur(8px);
@@ -127,7 +124,6 @@
       border: 1px solid rgba(255, 255, 255, 0.05);
     }
     
-    /* Custom Animations */
     .text-gradient {
       background-clip: text;
       -webkit-background-clip: text;
@@ -135,7 +131,6 @@
       background-image: linear-gradient(to right, #7928f3, #ff0080);
     }
     
-    /* Special Hover Effect for Cards */
     .hover-lift {
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
@@ -145,7 +140,6 @@
       box-shadow: 0 10px 25px rgba(121, 40, 243, 0.2);
     }
     
-    /* Swiper Customization */
     .swiper-pagination-bullet-active {
       background: #7928f3 !important;
     }
@@ -155,7 +149,6 @@
       color: #7928f3 !important;
     }
     
-    /* Shape Divider */
     .shape-divider {
       position: absolute;
       bottom: 0;
@@ -176,7 +169,6 @@
       fill: #FFFFFF;
     }
     
-    /* Custom Inputs */
     .input-gradient-border {
       border: 2px solid transparent;
       background-image: linear-gradient(white, white), linear-gradient(to right, #7928f3, #ff0080);
@@ -188,22 +180,11 @@
       box-shadow: 0 0 0 2px rgba(121, 40, 243, 0.2);
     }
     
-    /* Grid Pattern Background */
     .grid-pattern {
       background-size: 20px 20px;
       background-image:
         linear-gradient(to right, rgba(121, 40, 243, 0.05) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(121, 40, 243, 0.05) 1px, transparent 1px);
-    }
-    
-    /* Custom List Styles */
-    .custom-list li::before {
-      content: "•";
-      color: #7928f3;
-      font-weight: bold;
-      display: inline-block;
-      width: 1em;
-      margin-left: -1em;
     }
   </style>
 </head>
@@ -244,7 +225,6 @@
   <nav id="navbar" class="sticky top-0 bg-white/80 backdrop-blur shadow-sm z-40 transition-all duration-300">
     <div class="container mx-auto px-4">
       <div class="flex justify-between items-center py-4">
-        <!-- Logo -->
         <a href="#" class="flex items-center">
           <div class="flex items-center">
             <span class="text-2xl font-extrabold text-primary-600">نگاه نو</span>
@@ -252,7 +232,6 @@
           </div>
         </a>
         
-        <!-- Desktop Menu -->
         <div class="hidden lg:flex items-center space-x-6 space-x-reverse">
           <a href="#home" class="nav-link text-secondary-700 hover:text-primary-600 px-1 py-2 font-medium transition-colors">خانه</a>
           <a href="#about" class="nav-link text-secondary-700 hover:text-primary-600 px-1 py-2 font-medium transition-colors">درباره ما</a>
@@ -264,16 +243,14 @@
           <a href="#contact" class="nav-link text-secondary-700 hover:text-primary-600 px-1 py-2 font-medium transition-colors">تماس با ما</a>
         </div>
         
-        <!-- CTA Buttons -->
         <div class="hidden lg:flex items-center">
           <a href="https://my.madyar.org/Students/SHome" target="_blank" class="mr-4 flex items-center text-sm font-medium text-primary-600 hover:text-primary-800 transition-colors">
             <i class="fas fa-user-graduate ml-1"></i>
             <span>پنل دانش‌آموزان</span>
           </a>
-          <a href="#register" class="bg-primary-600 hover:bg-primary-700 text-white rounded-lg px-5 py-2 transition-colors">ثبت‌نام</a>
+          <a href="#register" class="bg-primary-600 hover:bg-primary-700 text-white rounded-lg px-5 py-2 transition-colors shadow-lg hover:shadow-neon">ثبت‌نام</a>
         </div>
         
-        <!-- Mobile Menu Button -->
         <button id="mobile-menu-btn" class="lg:hidden text-secondary-800 focus:outline-none">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -282,7 +259,6 @@
         </button>
       </div>
       
-      <!-- Mobile Menu -->
       <div id="mobile-menu" class="lg:hidden hidden pb-4">
         <div class="flex flex-col space-y-2">
           <a href="#home" class="text-secondary-700 hover:text-primary-600 hover:bg-primary-50 px-4 py-2 rounded-md transition-colors">خانه</a>
@@ -308,13 +284,10 @@
 
   <!-- Hero Section -->
   <section id="home" class="relative min-h-screen flex items-center pt-16 pb-24 overflow-hidden bg-gradient-to-br from-primary-900 via-primary-800 to-primary-700 text-white">
-    <!-- Animated Shapes -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
       <div class="absolute top-20 left-10 w-64 h-64 bg-primary-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-pulse-slow"></div>
       <div class="absolute bottom-20 right-10 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-pulse-slow" style="animation-delay: 1s;"></div>
       <div class="absolute top-1/2 right-1/3 w-48 h-48 bg-primary-300 rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-pulse-slow" style="animation-delay: 2s;"></div>
-      
-      <!-- Grid Pattern overlay -->
       <div class="absolute inset-0 opacity-20 grid-pattern"></div>
     </div>
     
@@ -326,18 +299,13 @@
             <span class="text-gradient bg-gradient-to-l from-primary-200 to-pink-300">آینده‌ای درخشان</span>
           </h1>
           <p class="text-lg md:text-xl text-primary-100 mb-8 max-w-2xl mx-auto lg:mr-0">
-            در مجتمع آموزشی نگاه نو، با بیش از ۴۰ سال تجربه، مسیر موفقیت فرزندان شما را با بهترین روش‌های آموزشی و پرورشی هموار می‌کنیم.
+            در مجتمع آموزشی نگاه نو، با بیش از ۴ دهه تجربه، مسیر موفقیت فرزندان شما را با بهترین روش‌های آموزشی و پرورشی هموار می‌کنیم.
           </p>
           <div class="flex flex-wrap justify-center lg:justify-start gap-4">
-            <a href="#register" class="rounded-lg bg-white text-primary-700 hover:bg-primary-50 px-8 py-3 font-medium transition-all transform hover:scale-105 shadow-lg">
-              ثبت‌نام آنلاین
-            </a>
-            <a href="#about" class="rounded-lg bg-primary-700 hover:bg-primary-600 text-white px-8 py-3 font-medium transition-all transform hover:scale-105 shadow-lg border border-primary-500">
-              بیشتر بدانید
-            </a>
+            <a href="#register" class="rounded-lg bg-white text-primary-700 hover:bg-primary-50 px-8 py-3 font-medium transition-all transform hover:scale-105 shadow-lg">ثبت‌نام آنلاین</a>
+            <a href="#about" class="rounded-lg bg-primary-700 hover:bg-primary-600 text-white px-8 py-3 font-medium transition-all transform hover:scale-105 shadow-lg border border-primary-500">بیشتر بدانید</a>
           </div>
           
-          <!-- Stats in Hero Section -->
           <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
             <div class="text-center p-3 rounded-lg glass">
               <div class="text-3xl font-bold text-white mb-1">+40</div>
@@ -360,12 +328,10 @@
         
         <div class="w-full lg:w-1/2" data-aos="fade-left" data-aos-delay="200">
           <div class="relative">
-            <!-- Main Image -->
             <div class="relative overflow-hidden rounded-2xl shadow-2xl border-4 border-white/20">
-              <img src="/api/placeholder/600/400" alt="دانش‌آموزان نگاه نو" class="w-full object-cover" />
+              <img src="/api/placeholder/600/400" alt="دانش‌آموزان نگاه نو" class="w-full object-cover" loading="lazy" />
             </div>
             
-            <!-- Floating Elements -->
             <div class="absolute -top-10 -right-10 bg-gradient-to-br from-primary-500 to-pink-500 rounded-2xl p-4 glass-dark shadow-lg animate-float">
               <div class="flex items-center">
                 <div class="p-3 bg-white rounded-full mr-3 text-primary-600">
@@ -394,7 +360,6 @@
       </div>
     </div>
     
-    <!-- Wave Divider -->
     <div class="shape-divider">
       <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
         <path d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z" class="shape-fill"></path>
@@ -409,7 +374,7 @@
         <span class="bg-primary-100 text-primary-700 text-sm font-medium px-4 py-1.5 rounded-full">درباره مجتمع نگاه نو</span>
         <h2 class="text-3xl md:text-4xl font-bold mt-4 mb-4">یک <span class="text-primary-600">تجربه متفاوت</span> در آموزش</h2>
         <p class="max-w-3xl mx-auto text-secondary-600">
-          با بیش از چهار دهه تجربه در زمینه آموزش و پرورش، همواره در مسیر بهبود و ارتقای کیفیت آموزشی گام برداشته‌ایم.
+          با بیش از چهار دهه تجربه در زمینه آموزش و پرورش، ما در نگاه نو به دنبال پرورش نسلی خلاق، با اعتماد به نفس و آماده برای آینده هستیم.
         </p>
       </div>
       
@@ -417,9 +382,8 @@
         <div class="order-2 md:order-1" data-aos="fade-right">
           <div class="relative">
             <div class="bg-primary-100 absolute -z-10 rounded-full w-80 h-80 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
-            <img src="/api/placeholder/500/500" alt="مجتمع آموزشی نگاه نو" class="mx-auto relative z-10 rounded-2xl shadow-xl" />
+            <img src="/api/placeholder/500/500" alt="مجتمع آموزشی نگاه نو" class="mx-auto relative z-10 rounded-2xl shadow-xl" loading="lazy" />
             
-            <!-- Experience badge -->
             <div class="absolute -bottom-6 right-8 bg-white p-4 rounded-lg shadow-lg">
               <div class="text-center">
                 <span class="text-3xl font-bold text-primary-600">+40</span>
@@ -430,9 +394,9 @@
         </div>
         
         <div class="order-1 md:order-2" data-aos="fade-left">
-          <h3 class="text-2xl font-bold text-primary-600 mb-4">با نگاه نو، به آینده روشن فکر کنید</h3>
+          <h3 class="text-2xl font-bold text-primary-600 mb-4">با نگاه نو، آینده‌ای روشن بسازید</h3>
           <p class="text-secondary-700 mb-6">
-            دبیرستان پسرانه‌ی نگاه نو با بیش از ۴۰ سال سابقه درخشان در آموزش و پرورش، محیطی ایده‌آل برای رشد علمی و تربیتی دانش‌آموزان فراهم کرده است. با بهره‌گیری از کادری مجرب و امکانات آموزشی مدرن، محیطی پویا و انگیزشی را برای دانش‌آموزان فراهم می‌کنیم.
+            مجتمع آموزشی نگاه نو با بیش از ۴۰ سال سابقه، محیطی پویا و انگیزشی برای رشد علمی و تربیتی دانش‌آموزان فراهم کرده است. ما با استفاده از روش‌های نوین آموزشی و کادری مجرب، به دانش‌آموزان کمک می‌کنیم تا استعدادهای خود را کشف و شکوفا کنند.
           </p>
           
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
@@ -442,7 +406,7 @@
               </div>
               <div>
                 <h4 class="font-semibold text-secondary-800">کادر آموزشی مجرب</h4>
-                <p class="text-sm text-secondary-600">بهره‌گیری از معلمان با تجربه و کارآمد</p>
+                <p class="text-sm text-secondary-600">معلمان با تجربه و متخصص در حوزه‌های مختلف</p>
               </div>
             </div>
             <div class="flex items-start">
@@ -450,8 +414,8 @@
                 <i class="fas fa-check"></i>
               </div>
               <div>
-                <h4 class="font-semibold text-secondary-800">فضای آموزشی استاندارد</h4>
-                <p class="text-sm text-secondary-600">کلاس‌های مجهز و فضای آموزشی مناسب</p>
+                <h4 class="font-semibold text-secondary-800">امکانات مدرن</h4>
+                <p class="text-sm text-secondary-600">کلاس‌های هوشمند و آزمایشگاه‌های مجهز</p>
               </div>
             </div>
             <div class="flex items-start">
@@ -459,8 +423,8 @@
                 <i class="fas fa-check"></i>
               </div>
               <div>
-                <h4 class="font-semibold text-secondary-800">برنامه‌های فوق‌برنامه متنوع</h4>
-                <p class="text-sm text-secondary-600">امکان شرکت در فعالیت‌های فرهنگی و ورزشی</p>
+                <h4 class="font-semibold text-secondary-800">فعالیت‌های متنوع</h4>
+                <p class="text-sm text-secondary-600">برنامه‌های فرهنگی، ورزشی و علمی</p>
               </div>
             </div>
             <div class="flex items-start">
@@ -468,5 +432,314 @@
                 <i class="fas fa-check"></i>
               </div>
               <div>
-                <h4 class="font-semibold text-secondary-800">موفقیت تحصیلی</h4>
-                <p class="text-sm text-secondary-600">نت
+                <h4 class="font-semibold text-secondary-800">مشاوره تحصیلی</h4>
+                <p class="text-sm text-secondary-600">هدایت دانش‌آموزان برای موفقیت در آینده</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" class="py-24 bg-gray-100">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16" data-aos="fade-up">
+        <span class="bg-primary-100 text-primary-700 text-sm font-medium px-4 py-1.5 rounded-full">خدمات ما</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-4 mb-4">خدمات <span class="text-primary-600">منحصر به فرد</span> نگاه نو</h2>
+        <p class="max-w-3xl mx-auto text-secondary-600">
+          ما در نگاه نو مجموعه‌ای از خدمات آموزشی و پرورشی را ارائه می‌دهیم تا دانش‌آموزان در محیطی پویا و خلاق رشد کنند.
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="bg-white p-6 rounded-xl shadow-lg hover-lift" data-aos="fade-up" data-aos-delay="100">
+          <div class="text-primary-600 mb-4"><i class="fas fa-chalkboard-teacher text-3xl"></i></div>
+          <h3 class="text-xl font-semibold mb-2">آموزش هوشمند</h3>
+          <p class="text-secondary-600">کلاس‌های مجهز به تخته‌های دیجیتال و محتوای تعاملی برای یادگیری جذاب‌تر.</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-lg hover-lift" data-aos="fade-up" data-aos-delay="200">
+          <div class="text-primary-600 mb-4"><i class="fas fa-graduation-cap text-3xl"></i></div>
+          <h3 class="text-xl font-semibold mb-2">دوره‌های تیزهوشان</h3>
+          <p class="text-secondary-600">برنامه‌های ویژه برای دانش‌آموزان مستعد با تمرکز بر مهارت‌های پیشرفته.</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-lg hover-lift" data-aos="fade-up" data-aos-delay="300">
+          <div class="text-primary-600 mb-4"><i class="fas fa-flask text-3xl"></i></div>
+          <h3 class="text-xl font-semibold mb-2">آزمایشگاه‌های علمی</h3>
+          <p class="text-secondary-600">فعالیت‌های پژوهشی و آزمایشگاهی برای یادگیری عمیق‌تر مفاهیم علمی.</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-lg hover-lift" data-aos="fade-up" data-aos-delay="400">
+          <div class="text-primary-600 mb-4"><i class="fas fa-user-tie text-3xl"></i></div>
+          <h3 class="text-xl font-semibold mb-2">مشاوره تحصیلی</h3>
+          <p class="text-secondary-600">جلسات منظم مشاوره برای هدایت دانش‌آموزان در مسیر تحصیلی و شغلی.</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-lg hover-lift" data-aos="fade-up" data-aos-delay="500">
+          <div class="text-primary-600 mb-4"><i class="fas fa-person-running text-3xl"></i></div>
+          <h3 class="text-xl font-semibold mb-2">ورزش و سلامت</h3>
+          <p class="text-secondary-600">برنامه‌های ورزشی متنوع برای حفظ سلامت جسمی و روحی دانش‌آموزان.</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-lg hover-lift" data-aos="fade-up" data-aos-delay="600">
+          <div class="text-primary-600 mb-4"><i class="fas fa-trophy text-3xl"></i></div>
+          <h3 class="text-xl font-semibold mb-2">مسابقات و جشنواره‌ها</h3>
+          <p class="text-secondary-600">رویدادهای علمی، فرهنگی و ورزشی برای شکوفایی استعدادها.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Register Section -->
+  <section id="register" class="py-24 bg-gradient-to-br from-primary-900 to-primary-700 text-white">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16" data-aos="fade-up">
+        <span class="bg-primary-100 text-primary-700 text-sm font-medium px-4 py-1.5 rounded-full">ثبت‌نام</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-4 mb-4">به خانواده <span class="text-primary-200">نگاه نو</span> بپیوندید</h2>
+        <p class="max-w-3xl mx-auto text-primary-100">
+          ثبت‌نام در مجتمع آموزشی نگاه نو، اولین گام برای ساختن آینده‌ای درخشان برای فرزندان شماست. فرم زیر را پر کنید تا با شما تماس بگیریم.
+        </p>
+      </div>
+      
+      <div class="max-w-2xl mx-auto bg-white/10 backdrop-blur-lg p-8 rounded-xl" data-aos="fade-up" data-aos-delay="200">
+        <form id="register-form" class="space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label for="student-name" class="block text-sm font-medium text-primary-100">نام دانش‌آموز</label>
+              <input type="text" id="student-name" class="mt-1 block w-full rounded-md input-gradient-border p-3 text-secondary-900" required minlength="3" />
+            </div>
+            <div>
+              <label for="parent-name" class="block text-sm font-medium text-primary-100">نام والدین</label>
+              <input type="text" id="parent-name" class="mt-1 block w-full rounded-md input-gradient-border p-3 text-secondary-900" required minlength="3" />
+            </div>
+          </div>
+          <div>
+            <label for="phone" class="block text-sm font-medium text-primary-100">شماره تماس</label>
+            <input type="tel" id="phone" class="mt-1 block w-full rounded-md input-gradient-border p-3 text-secondary-900" required pattern="[0-9]{11}" />
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-medium text-primary-100">ایمیل</label>
+            <input type="email" id="email" class="mt-1 block w-full rounded-md input-gradient-border p-3 text-secondary-900" required />
+          </div>
+          <div>
+            <label for="grade" class="block text-sm font-medium text-primary-100">مقطع تحصیلی</label>
+            <select id="grade" class="mt-1 block w-full rounded-md input-gradient-border p-3 text-secondary-900" required>
+              <option value="">انتخاب کنید</option>
+              <option value="7">پایه هفتم</option>
+              <option value="8">پایه هشتم</option>
+              <option value="9">پایه نهم</option>
+            </select>
+          </div>
+          <div>
+            <button type="submit" class="w-full bg-primary-600 hover:bg-primary-700 text-white rounded-lg px-8 py-3 font-medium transition-all transform hover:scale-105 shadow-lg">ارسال درخواست</button>
+          </div>
+        </form>
+        <div id="form-message" class="mt-4 text-center hidden"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-24">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-16" data-aos="fade-up">
+        <span class="bg-primary-100 text-primary-700 text-sm font-medium px-4 py-1.5 rounded-full">تماس با ما</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-4 mb-4">با ما <span class="text-primary-600">در ارتباط</span> باشید</h2>
+        <p class="max-w-3xl mx-auto text-secondary-600">
+          برای کسب اطلاعات بیشتر یا هرگونه سوال، فرم زیر را پر کنید یا با ما تماس بگیرید.
+        </p>
+      </div>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+        <div data-aos="fade-right">
+          <div class="bg-white p-8 rounded-xl shadow-lg">
+            <h3 class="text-2xl font-bold text-primary-600 mb-6">ارتباط با ما</h3>
+            <div class="space-y-4">
+              <div class="flex items-center">
+                <i class="fas fa-phone-alt text-primary-600 ml-3"></i>
+                <div>
+                  <p class="font-semibold">تلفن (دوره اول):</p>
+                  <p class="text-secondary-600">44002077 - 44002078</p>
+                </div>
+              </div>
+              <div class="flex items-center">
+                <i class="fas fa-phone-alt text-primary-600 ml-3"></i>
+                <div>
+                  <p class="font-semibold">تلفن (دوره دوم):</p>
+                  <p class="text-secondary-600">44020395 - 44020648</p>
+                </div>
+              </div>
+              <div class="flex items-center">
+                <i class="fas fa-map-marker-alt text-primary-600 ml-3"></i>
+                <div>
+                  <p class="font-semibold">آدرس (دوره اول):</p>
+                  <p class="text-secondary-600">بلوار فردوس، خیابان رامین جنوبی، کوچه سروی، پلاک 16</p>
+                </div>
+              </div>
+              <div class="flex items-center">
+                <i class="fas fa-map-marker-alt text-primary-600 ml-3"></i>
+                <div>
+                  <p class="font-semibold">آدرس (دوره دوم):</p>
+                  <p class="text-secondary-600">آیت‌الله کاشانی، خیابان سلیمی جهرمی، کوچه نسترن شرقی، پلاک 5</p>
+                </div>
+              </div>
+              <div class="flex items-center">
+                <i class="fas fa-envelope text-primary-600 ml-3"></i>
+                <p class="text-secondary-600">info@negaaheno.ir</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div data-aos="fade-left">
+          <div class="bg-white p-8 rounded-xl shadow-lg">
+            <form id="contact-form" class="space-y-6">
+              <div>
+                <label for="contact-name" class="block text-sm font-medium text-secondary-700">نام</label>
+                <input type="text" id="contact-name" class="mt-1 block w-full rounded-md input-gradient-border p-3 text-secondary-900" required minlength="3" />
+              </div>
+              <div>
+                <label for="contact-email" class="block text-sm font-medium text-secondary-700">ایمیل</label>
+                <input type="email" id="contact-email" class="mt-1 block w-full rounded-md input-gradient-border p-3 text-secondary-900" required />
+              </div>
+              <div>
+                <label for="contact-message" class="block text-sm font-medium text-secondary-700">پیام</label>
+                <textarea id="contact-message" class="mt-1 block w-full rounded-md input-gradient-border p-3 text-secondary-900" rows="6" required></textarea>
+              </div>
+              <div>
+                <button type="submit" class="w-full bg-primary-600 hover:bg-primary-700 text-white rounded-lg px-8 py-3 font-medium transition-all transform hover:scale-105 shadow-lg">ارسال پیام</button>
+              </div>
+            </form>
+            <div id="contact-form-message" class="mt-4 text-center hidden"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-primary-900 text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div>
+          <h3 class="text-xl font-bold mb-4">مجتمع آموزشی نگاه نو</h3>
+          <p class="text-primary-200">
+            بیش از ۴۰ سال تجربه در آموزش و پرورش، همراه با تعهد به رشد و موفقیت دانش‌آموزان.
+          </p>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-4">لینک‌های سریع</h3>
+          <ul class="space-y-2">
+            <li><a href="#home" class="text-primary-200 hover:text-white transition-colors">خانه</a></li>
+            <li><a href="#about" class="text-primary-200 hover:text-white transition-colors">درباره ما</a></li>
+            <li><a href="#services" class="text-primary-200 hover:text-white transition-colors">خدمات</a></li>
+            <li><a href="#contact" class="text-primary-200 hover:text-white transition-colors">تماس با ما</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-4">تماس با ما</h3>
+          <p class="text-primary-200">ایمیل: info@negaaheno.ir</p>
+          <p class="text-primary-200">تلفن: 44002077 - 44002078</p>
+          <div class="flex space-x-4 mt-4 space-x-reverse">
+            <a href="https://instagram.com/negaah_e_no" target="_blank" class="text-primary-200 hover:text-white transition-colors">
+              <i class="fab fa-instagram text-xl"></i>
+            </a>
+            <a href="https://t.me/negaah_e_no" target="_blank" class="text-primary-200 hover:text-white transition-colors">
+              <i class="fab fa-telegram text-xl"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+      <hr class="my-8 border-primary-700">
+      <p class="text-center text-primary-200">
+        طراحی‌شده توسط <a href="#" class="text-primary-100 hover:text-white">مجتمع آموزشی نگاه نو</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    // Preloader
+    window.addEventListener('load', () => {
+      document.getElementById('preloader').classList.add('hidden');
+    });
+
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const menuIcon = document.getElementById('menu-icon');
+    const closeIcon = document.getElementById('close-icon');
+    
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      menuIcon.classList.toggle('hidden');
+      closeIcon.classList.toggle('hidden');
+    });
+
+    // AOS Initialization
+    AOS.init({
+      duration: 800,
+      once: true,
+    });
+
+    // Swiper Initialization (for any sliders)
+    const swiper = new Swiper('.swiper', {
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+
+    // Contact Form Submission
+    const contactForm = document.getElementById('contact-form');
+    const contactFormMessage = document.getElementById('contact-form-message');
+    
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      contactFormMessage.classList.remove('hidden');
+      contactFormMessage.classList.add('text-green-600');
+      contactFormMessage.textContent = 'پیام شما با موفقیت ارسال شد!';
+      
+      // Simulate API call
+      try {
+        const formData = new FormData(contactForm);
+        // Replace with actual API endpoint
+        // await fetch('https://api.example.com/contact', { method: 'POST', body: formData });
+        contactForm.reset();
+      } catch (error) {
+        contactFormMessage.classList.remove('text-green-600');
+        contactFormMessage.classList.add('text-red-600');
+        contactFormMessage.textContent = 'خطایی رخ داد. لطفاً دوباره تلاش کنید.';
+      }
+    });
+
+    // Register Form Submission
+    const registerForm = document.getElementById('register-form');
+    const registerFormMessage = document.getElementById('form-message');
+    
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      registerFormMessage.classList.remove('hidden');
+      registerFormMessage.classList.add('text-green-600');
+      registerFormMessage.textContent = 'درخواست شما با موفقیت ثبت شد! به زودی با شما تماس می‌گیریم.';
+      
+      // Simulate API call
+      try {
+        const formData = new FormData(registerForm);
+        // Replace with actual API endpoint
+        // await fetch('https://api.example.com/register', { method: 'POST', body: formData });
+        registerForm.reset();
+      } catch (error) {
+        registerFormMessage.classList.remove('text-green-600');
+        registerFormMessage.classList.add('text-red-600');
+        registerFormMessage.textContent = 'خطایی رخ داد. لطفاً دوباره تلاش کنید.';
+      }
+    });
+  </script>
+</body>
+</html>
