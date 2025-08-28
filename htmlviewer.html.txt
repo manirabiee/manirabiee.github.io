@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الف مدار - کنفرانس برپایه هوش مصنوعی</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --accent-color: #00d4ff;
+            --accent-hover: #0099cc;
+            --danger-color: #ff4757;
+            --success-color: #2ed573;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        .glass-effect {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-container {
+            text-align: center;
+            position: relative;
+        }
+
+        .alef-logo {
+            font-size: 8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .circuit-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            border-top: 2px solid transparent;
+            animation: rotate 2s linear infinite;
+        }
+
+        .circuit-ring::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 50%;
+        }
+
+        @keyframes rotate {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Main Content */
+        .main-content {
+            display: none;
+        }
+
+        .main-content.active {
+            display: block;
+        }
+
+        /* Header */
+        .header {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .logo-symbol {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .logo-text {
+            font-size: 2.5rem;
+            font-weight: 600;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 4rem 2rem;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .hero .description {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        /* Conference Start Card */
+        .conference-card {
+            max-width: 500px;
+            margin: 0 auto 4rem;
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .conference-card h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        .input-group {
+            margin-bottom: 2rem;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-family: 'Vazirmatn', sans-serif;
+            backdrop-filter: blur(10px);
+        }
+
+        .input-group input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: 'Vazirmatn', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+            min-width: 150px;
+        }
+
+        .btn-primary {
+            background: var(--accent-color);
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #ff3838;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #26d065;
+            transform: translateY(-2px);
+        }
+
+        /* Conference Room */
+        .conference-room {
+            display: none;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .conference-room.active {
+            display: block;
+        }
+
+        .room-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .room-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .participants {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .participant-card {
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .participant-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 3rem;
+            color: #000;
+            position: relative;
+        }
+
+        .participant-avatar.speaking {
+            box-shadow: 0 0 30px var(--accent-color);
+            animation: pulse 2s infinite;
+        }
+
+        .participant-avatar.muted::after {
+            content: '🔇';
+            position: absolute;
+            bottom: -10px;
+            right: -10px;
+            font-size: 2rem;
+            background: var(--danger-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 30px var(--accent-color); }
+            50% { box-shadow: 0 0 50px var(--accent-color), 0 0 70px rgba(0, 212, 255, 0.5); }
+        }
+
+        .participant-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .participant-status {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 25px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+        }
+
+        .control-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-btn.mute-btn {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .control-btn.mute-btn.muted {
+            background: var(--danger-color);
+        }
+
+        .control-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .control-btn.leave-btn {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .conference-card {
+                margin: 0 1rem 2rem;
+                padding: 2rem;
+            }
+
+            .controls {
+                bottom: 1rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .alef-logo {
+                font-size: 6rem;
+            }
+
+            .circuit-ring {
+                width: 150px;
+                height: 150px;
+            }
+        }
+
+        /* Status indicator */
+        .status-indicator {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .status-indicator.active {
+            display: block;
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-left: 0.5rem;
+            background: var(--success-color);
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-container">
+            <div class="alef-logo">الف</div>
+            <div class="circuit-ring"></div>
+        </div>
+    </div>
+
+    <!-- Status Indicator -->
+    <div class="status-indicator" id="statusIndicator">
+        <span id="statusText">آماده اتصال</span>
+        <span class="status-dot"></span>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-symbol">~</span>
+                <span class="logo-text">الف مدار</span>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>کنفرانس برپایه هوش مصنوعی</h1>
+            <p class="subtitle">تجربه‌ای نوین از ارتباط صوتی</p>
+            <p class="description">
+                الف مدار، بستری مدرن و هوشمند برای برگزاری جلسات صوتی با کیفیت بالا. با استفاده از فناوری‌های پیشرفته WebRTC و طراحی زیبای liquid glass، تجربه‌ای بی‌نظیر از کنفرانس صوتی را ارائه می‌دهیم.
+            </p>
+
+            <!-- Conference Start Card -->
+            <div class="conference-card glass-effect">
+                <h2>شروع کنفرانس رایگان</h2>
+                <div class="input-group">
+                    <input type="text" id="nameInput" placeholder="نام خود را وارد کنید">
+                </div>
+                <button class="btn btn-primary" onclick="joinConference()">
+                    <span>ورود به جلسه</span>
+                    <span>🎤</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <h2>ویژگی‌های الف مدار</h2>
+            <div class="features-grid">
+                <div class="feature-card glass-effect">
+                    <div class="feature-icon">🎤</div>
+                    <h3>کیفیت صدای HD</h3>
+                    <p>تکنولوژی پیشرفته WebRTC برای ارائه کیفیت صدای فوق‌العاده</p>
+                </div>
+                <div class="feature-card glass-effect">
+                    <div class="feature-icon">🤖</div>
+                    <h3>هوش مصنوعی</h3>
+                    <p>بهینه‌سازی خودکار کیفیت صدا و حذف نویز با هوش مصنوعی</p>
+                </div>
+                <div class="feature-card glass-effect">
+                    <div class="feature-icon">🔒</div>
+                    <h3>امنیت بالا</h3>
+                    <p>رمزگذاری end-to-end برای محافظت از مکالمات شما</p>
+                </div>
+                <div class="feature-card glass-effect">
+                    <div class="feature-icon">⚡</div>
+                    <h3>سرعت بالا</h3>
+                    <p>اتصال فوری و پایدار بدون تأخیر قابل توجه</p>
+                </div>
+                <div class="feature-card glass-effect">
+                    <div class="feature-icon">📱</div>
+                    <h3>سازگاری کامل</h3>
+                    <p>قابل استفاده در تمام دستگاه‌ها و مرورگرها</p>
+                </div>
+                <div class="feature-card glass-effect">
+                    <div class="feature-icon">🎨</div>
+                    <h3>طراحی مدرن</h3>
+                    <p>رابط کاربری زیبا با افکت liquid glass</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Conference Room -->
+    <div class="conference-room" id="conferenceRoom">
+        <div class="room-header">
+            <h1 class="room-title">اتاق کنفرانس</h1>
+            <p>جلسه در حال برگزاری...</p>
+        </div>
+
+        <div class="participants" id="participants">
+            <!-- Participants will be added dynamically -->
+        </div>
+
+        <!-- Audio elements -->
+        <audio id="localAudio" autoplay muted></audio>
+        <audio id="remoteAudio" autoplay></audio>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls" id="controls" style="display: none;">
+        <button class="control-btn mute-btn" id="muteBtn" onclick="toggleMute()">
+            <span id="muteIcon">🎤</span>
+        </button>
+        <button class="control-btn leave-btn" onclick="leaveConference()">
+            <span>📞</span>
+        </button>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.0/firebase-app-compat.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.22.0/firebase-firestore-compat.min.js"></script>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAqrVLaZ1k7sBWExGzu4dVvaUNfKQoUgXI",
+            authDomain: "karizmachat.firebaseapp.com",
+            projectId: "karizmachat",
+            storageBucket: "karizmachat.firebasestorage.app",
+            messagingSenderId: "584401361646",
+            appId: "1:584401361646:web:f8ec4e54cb4e9e7db271ff"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Global variables
+        let localStream = null;
+        let peerConnection = null;
+        let currentUser = null;
+        let isConnected = false;
+        let isMuted = false;
+        let roomRef = null;
+
+        // WebRTC configuration
+        const servers = {
+            iceServers: [
+                { urls: 'stun:stun.l.google.com:19302' },
+                { urls: 'stun:stun1.l.google.com:19302' }
+            ]
+        };
+
+        // DOM elements
+        const loadingScreen = document.getElementById('loadingScreen');
+        const mainContent = document.getElementById('mainContent');
+        const conferenceRoom = document.getElementById('conferenceRoom');
+        const nameInput = document.getElementById('nameInput');
+        const controls = document.getElementById('controls');
+        const muteBtn = document.getElementById('muteBtn');
+        const muteIcon = document.getElementById('muteIcon');
+        const statusIndicator = document.getElementById('statusIndicator');
+        const statusText = document.getElementById('statusText');
+        const participants = document.getElementById('participants');
+
+        // Initialize app
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                loadingScreen.classList.add('hidden');
+                mainContent.classList.add('active');
+            }, 3000);
+        });
+
+        // Join conference function
+        async function joinConference() {
+            const name = nameInput.value.trim();
+            if (!name) {
+                alert('لطفاً نام خود را وارد کنید');
+                return;
+            }
+
+            currentUser = {
+                name: name,
+                id: generateId()
+            };
+
+            try {
+                updateStatus('درحال اتصال...');
+                statusIndicator.classList.add('active');
+
+                // Request microphone permission
+                localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                
+                // Initialize room
+                await initializeRoom();
+
+                // Switch to conference room
+                mainContent.style.display = 'none';
+                conferenceRoom.classList.add('active');
+                controls.style.display = 'flex';
+
+                updateStatus('متصل شده');
+                addParticipant(currentUser, true);
+
+            } catch (error) {
+                console.error('Error joining conference:', error);
+                alert('خطا در اتصال به جلسه. لطفاً مجدداً تلاش کنید.');
+                updateStatus('خطا در اتصال');
+            }
+        }
+
+        // Initialize room
+        async function initializeRoom() {
+            const roomId = 'main-room'; // Single room for this project
+            roomRef = db.collection('rooms').doc(roomId);
+
+            // Check if room exists
+            const roomSnapshot = await roomRef.get();
+            if (!roomSnapshot.exists) {
+                await roomRef.set({
+                    created: firebase.firestore.FieldValue.serverTimestamp(),
+                    participants: {}
+                });
+            }
+
+            // Add user to room
+            await roomRef.update({
+                [`participants.${currentUser.id}`]: {
+                    name: currentUser.name,
+                    joinedAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    muted: false
+                }
+            });
+
+            // Listen for participants changes
+            roomRef.onSnapshot(snapshot => {
+                if (snapshot.exists) {
+                    const data = snapshot.data();
+                    updateParticipantsList(data.participants || {});
+                }
+            });
+
+            // Setup WebRTC for other participants
+            setupWebRTC();
+        }
+
+        // Setup WebRTC
+        async function setupWebRTC() {
+            if (!roomRef) return;
+
+            // Listen for offers
+            roomRef.collection('offers').onSnapshot(snapshot => {
+                snapshot.docChanges().forEach(change => {
+                    if (change.type === 'added') {
+                        handleOffer(change.doc);
+                    }
+                });
+            });
+
+            // Listen for answers
+            roomRef.collection('answers').onSnapshot(snapshot => {
+                snapshot.docChanges().forEach(change => {
+                    if (change.type === 'added') {
+                        handleAnswer(change.doc);
+                    }
+                });
+            });
+
+            // Listen for ICE candidates
+            roomRef.collection('candidates').onSnapshot(snapshot => {
+                snapshot.docChanges().forEach(change => {
+                    if (change.type === 'added') {
+                        handleCandidate(change.doc);
+                    }
+                });
+            });
+
+            // Create peer connection for new participants
+            setTimeout(createOffer, 1000);
+        }
+
+        // Create WebRTC offer
+        async function createOffer() {
+            if (peerConnection) return;
+
+            peerConnection = new RTCPeerConnection(servers);
+
+            // Add local stream
+            if (localStream) {
+                localStream.getTracks().forEach(track => {
+                    peerConnection.addTrack(track, localStream);
+                });
+            }
+
+            // Handle remote stream
+            peerConnection.ontrack = event => {
+                const remoteAudio = document.getElementById('remoteAudio');
+                if (remoteAudio && event.streams[0]) {
+                    remoteAudio.srcObject = event.streams[0];
+                    updateRemoteParticipant(true);
+                }
+            };
+
+            // Handle ICE candidates
+            peerConnection.onicecandidate = async event => {
+                if (event.candidate && roomRef) {
+                    await roomRef.collection('candidates').add({
+                        candidate: event.candidate.toJSON(),
+                        from: currentUser.id,
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+            };
+
+            // Create and send offer
+            try {
+                const offer = await peerConnection.createOffer();
+                await peerConnection.setLocalDescription(offer);
+                
+                await roomRef.collection('offers').add({
+                    offer: offer,
+                    from: currentUser.id,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            } catch (error) {
+                console.error('Error creating offer:', error);
+            }
+        }
+
+        // Handle WebRTC offer
+        async function handleOffer(doc) {
+            const data = doc.data();
+            if (data.from === currentUser.id) return;
+
+            if (!peerConnection) {
+                peerConnection = new RTCPeerConnection(servers);
+
+                // Add local stream
+                if (localStream) {
+                    localStream.getTracks().forEach(track => {
+                        peerConnection.addTrack(track, localStream);
+                    });
+                }
+
+                // Handle remote stream
+                peerConnection.ontrack = event => {
+                    const remoteAudio = document.getElementById('remoteAudio');
+                    if (remoteAudio && event.streams[0]) {
+                        remoteAudio.srcObject = event.streams[0];
+                        updateRemoteParticipant(true);
+                    }
+                };
+
+                // Handle ICE candidates
+                peerConnection.onicecandidate = async event => {
+                    if (event.candidate && roomRef) {
+                        await roomRef.collection('candidates').add({
+                            candidate: event.candidate.toJSON(),
+                            from: currentUser.id,
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    }
+                };
+            }
+
+            try {
+                await peerConnection.setRemoteDescription(data.offer);
+                const answer = await peerConnection.createAnswer();
+                await peerConnection.setLocalDescription(answer);
+
+                await roomRef.collection('answers').add({
+                    answer: answer,
+                    to: data.from,
+                    from: currentUser.id,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            } catch (error) {
+                console.error('Error handling offer:', error);
+            }
+        }
+
+        // Handle WebRTC answer
+        async function handleAnswer(doc) {
+            const data = doc.data();
+            if (data.to !== currentUser.id) return;
+
+            try {
+                await peerConnection.setRemoteDescription(data.answer);
+            } catch (error) {
+                console.error('Error handling answer:', error);
+            }
+        }
+
+        // Handle ICE candidate
+        async function handleCandidate(doc) {
+            const data = doc.data();
+            if (data.from === currentUser.id || !peerConnection) return;
+
+            try {
+                await peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
+            } catch (error) {
+                console.error('Error adding ICE candidate:', error);
+            }
+        }
+
+        // Toggle mute
+        function toggleMute() {
+            if (!localStream) return;
+
+            isMuted = !isMuted;
+            localStream.getAudioTracks().forEach(track => {
+                track.enabled = !isMuted;
+            });
+
+            // Update UI
+            muteBtn.classList.toggle('muted', isMuted);
+            muteIcon.textContent = isMuted ? '🔇' : '🎤';
+
+            // Update in database
+            if (roomRef && currentUser) {
+                roomRef.update({
+                    [`participants.${currentUser.id}.muted`]: isMuted
+                });
+            }
+
+            // Update local participant display
+            updateLocalParticipant();
+        }
+
+        // Leave conference
+        async function leaveConference() {
+            try {
+                // Clean up WebRTC
+                if (peerConnection) {
+                    peerConnection.close();
+                    peerConnection = null;
+                }
+
+                // Stop local stream
+                if (localStream) {
+                    localStream.getTracks().forEach(track => track.stop());
+                    localStream = null;
+                }
+
+                // Remove from database
+                if (roomRef && currentUser) {
+                    await roomRef.update({
+                        [`participants.${currentUser.id}`]: firebase.firestore.FieldValue.delete
+            text-align: center;
